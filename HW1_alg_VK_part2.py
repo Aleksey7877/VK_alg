@@ -114,6 +114,36 @@ def is_palindrome2(s):
     return True
 
 
+class Merge:
+    def mergeSorted(a, b):
+        dummy = ListNode()
+        tail = dummy
+
+        while a is not None and b is not None:
+            if a.value < b.value:
+                tail.next = a
+                a = a.next
+            else:
+                tail.next = b
+                b = b.next
+            tail = tail.next
+
+        if a is not None:
+            tail.next = a
+        elif b is not None:
+            tail.next = b
+
+        return dummy.next
+
+
+def show(node):
+    a = []
+    while node is not None:
+        a.append(node.value)
+        node = node.next
+    return a
+
+
 def tests():
 
     # Создаем список с 1 по 6 и связываем
@@ -173,3 +203,25 @@ def tests():
     assert is_palindrome2("гамак") == False
     assert is_palindrome2("ы") == True
     assert is_palindrome2("") == True
+
+    # Задаем списки из примера для сложения в один отсортированный
+    node1_1 = ListNode(3)
+    node2_1 = ListNode(6)
+    node3_1 = ListNode(8)
+
+    node1_2 = ListNode(4)
+    node2_2 = ListNode(7)
+    node3_2 = ListNode(9)
+    node4_2 = ListNode(11)
+
+    node1_1.next = node2_1
+    node2_1.next = node3_1
+
+    node1_2.next = node2_2
+    node2_2.next = node3_2
+    node3_2.next = node4_2
+
+    # делаем слияние, проверяем на функции списка
+    merged_head = Merge.mergeSorted(node1_1, node1_2)
+
+    assert show(merged_head) == [3, 4, 6, 7, 8, 9, 11]
